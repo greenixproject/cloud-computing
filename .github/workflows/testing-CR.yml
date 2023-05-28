@@ -32,7 +32,7 @@ jobs:
       - name: Build Container Image
         id: build
         run: |
-          gcloud builds submit --tag gcr.io/$PROJECT_ID/${SERVICE}:${{ github.sha }} ./
+          gcloud builds submit --tag gcr.io/$PROJECT_ID/${SERVICE}:${{ github.sha }} --project $PROJECT_ID
 
       - name: Deploy to Cloud Run
         id: deploy
@@ -40,7 +40,7 @@ jobs:
         with:
           service: ${{ env.SERVICE }}
           region: ${{ env.REGION }}
-          image: ${{ steps.build.outputs.image-url }}
+          image: gcr.io/$PROJECT_ID/${SERVICE}:${{ github.sha }}
 
       - name: Show Output
         run: echo ${{ steps.deploy.outputs.url }}
