@@ -27,13 +27,19 @@ jobs:
         with:
           credentials_json: '${{ secrets.GCP_SA_KEY }}'
 
+      - name: Build Container Image
+        id: build
+        run: |
+          gcloud builds submit --pack ./cloud-computing
+          echo "::set-output name=image-url::gcr.io/$PROJECT_ID/${SERVICE}:${{ github.sha }}"
+
       - name: Deploy to Cloud Run
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v0
         with:
           service: ${{ env.SERVICE }}
           region: ${{ env.REGION }}
-          source: cloud-computing
+          image: ${{ steps.build.outputs.image-url }}
 
       - name: Show Output
         run: echo ${{ steps.deploy.outputs.url }}
