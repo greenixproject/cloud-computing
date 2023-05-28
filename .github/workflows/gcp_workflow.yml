@@ -71,6 +71,7 @@ jobs:
         uses: 'google-github-actions/auth@v0'
         with:
           token_format: 'access_token'
+          project_id: capstone-party2023
           workload_identity_provider: 'projects/27203401687/locations/global/workloadIdentityPools/greenix-pool/* ' # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
           service_account: '${{ secrets.GCP_SA_KEY }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
 
