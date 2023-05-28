@@ -30,8 +30,9 @@ jobs:
       - name: Build Container Image
         id: build
         run: |
-          gcloud builds submit --pack ./cloud-computing
+          gcloud builds submit --pack=./cloud-computing
           echo "::set-output name=image-url::gcr.io/$PROJECT_ID/${SERVICE}:${{ github.sha }}"
+
 
       - name: Deploy to Cloud Run
         id: deploy
