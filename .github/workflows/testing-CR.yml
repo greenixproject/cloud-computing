@@ -1,4 +1,4 @@
-name: Deploy to Cloud Run
+name: Deploy API TensorFlow to Cloud Run
 
 on:
   push:
@@ -37,8 +37,24 @@ jobs:
         docker push gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA
 
     - name: Deploy to Cloud Run
-      uses: google-github-actions/deploy-cloudrun@v0.2.0
-      with:
-        image: gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE }}:$GITHUB_SHA
-        region: ${{ env.REGION }}
-        service: ${{ env.SERVICE }}
+      run: |
+        gcloud run deploy ${{ env.SERVICE }} \
+          --image gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE }}:$GITHUB_SHA \
+          --platform managed \
+          --region ${{ env.REGION }} \
+          --quiet
+          
+    - name: Deploy API files to Cloud Run
+      run: |
+        gcloud run services update ${{ env.SERVICE }} \
+          --update-env-vars $(cat .env) \
+          --quiet
+        gcloud run services update ${{ env.SERVICE }} \
+          --set-env-vars $(cat .env) \
+          --quiet
+        gcloud run services update ${{ env.SERVICE }} \
+          --update-env-vars API_FILE_CONTENT="$(cat API-TensorFlow.py)" \
+          --quiet
+        gcloud run services update ${{ env.SERVICE }} \
+          --update-env-vars REQ_FILE_CONTENT="$(cat requirements.txt)" \
+          --quiet
