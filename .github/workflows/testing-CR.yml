@@ -47,12 +47,6 @@ jobs:
     - name: Deploy API files to Cloud Run
       run: |
         gcloud run services update ${{ env.SERVICE }} \
-          --update-env-vars $(cat .env) \
-          --quiet
-        gcloud run services update ${{ env.SERVICE }} \
-          --set-env-vars $(cat .env) \
-          --quiet
-        gcloud run services update ${{ env.SERVICE }} \
           --update-env-vars API_FILE_CONTENT="$(cat API-TensorFlow.py)" \
           --quiet
         gcloud run services update ${{ env.SERVICE }} \
