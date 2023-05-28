@@ -1,5 +1,6 @@
 import tensorflow as tf
 from flask import Flask, request
+from markupsafe import escape
 
 app = Flask(__name__)
 
@@ -18,4 +19,4 @@ def predict():
 if __name__ == '__main__':
     # Load model TensorFlow
     model = tf.keras.models.load_model('model.h5')
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=8080)
