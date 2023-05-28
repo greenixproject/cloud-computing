@@ -1,18 +1,17 @@
-# Use an official Python runtime as a parent image
+# Menggunakan base image Python 3.7
 FROM python:3.7-slim
 
-# Set the working directory in the container to /app
+# Set working directory di dalam kontainer
 WORKDIR /app
 
-# Add the current directory contents into the container at /app
-ADD . /app
+# Menyalin file requirements.txt ke dalam kontainer
+COPY requirements.txt .
 
-# Install any needed packages specified in requirements.txt
+# Menginstal dependensi yang dibutuhkan
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Make port 80 available to the world outside this container
-EXPOSE 80
+# Menyalin file API-TensorFlow.py ke dalam kontainer
+COPY API-TensorFlow.py .
 
-# Run app.py when the container launches
+# Menjalankan aplikasi API-TensorFlow.py
 CMD ["python", "API-TensorFlow.py"]
-
