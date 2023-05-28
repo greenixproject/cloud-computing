@@ -7,9 +7,9 @@ on:
 
 env:
   PROJECT_ID: capstone-party2023
-  SERVICE: capstone-party-service
-  REGION: asia-southeast1
-  IMAGE: your-image-name
+  SERVICE: greenix
+  REGION: us-central1
+  IMAGE: greenix
 
 jobs:
   setup-build-publish-deploy:
