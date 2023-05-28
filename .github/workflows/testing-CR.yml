@@ -42,7 +42,7 @@ jobs:
           --image gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE }}:$GITHUB_SHA \
           --platform managed \
           --region ${{ env.REGION }} \
-          --port 8080
+          --port 5000
           
     - name: Deploy API files to Cloud Run
       run: |
