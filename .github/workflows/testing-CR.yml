@@ -4,18 +4,12 @@ on:
   push:
     branches: [ "main" ]
 
-env:
-  PROJECT_ID: capstone-party2023 # TODO: update Google Cloud project id
-  SERVICE: greenix # TODO: update Cloud Run service name
-  REGION: us-central1 # TODO: update Cloud Run service region
-
 jobs:
   deploy:
-    # Add 'id-token' with the intended permissions for workload identity federation
     permissions:
       contents: 'read'
       id-token: 'write'
-
+    
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -33,10 +27,11 @@ jobs:
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v0
         with:
-          service: ${{ env.SERVICE }}
-          region: ${{ env.REGION }}
-          image: gcr.io/$PROJECT_ID/${SERVICE}:${{ github.sha }}
-          flags: '--verbosity debug' # Add this line for more detailed logs
+          project_id: capstone-party2023
+          service: greenix
+          region: us-central1
+          image: gcr.io/capstone-party2023/greenix:${{ github.sha }}
+          flags: '--verbosity debug'
 
       - name: Show Output
         run: echo ${{ steps.deploy.outputs.url }}
