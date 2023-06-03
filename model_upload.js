@@ -39,3 +39,21 @@ function searchFiles(dirPath) {
 
 // Menjalankan pencarian file dan mengunggahnya ke GCS
 searchFiles(path.join(__dirname, '..'));
+
+// Fungsi untuk menghapus file dari GCS berdasarkan file yang ada di repo
+async function deleteObsoleteFiles() {
+  const [files] = await storage.bucket(bucketName).getFiles({ prefix: folderName });
+
+  const repoFiles = fs.readdirSync(path.join(__dirname, '..'));
+
+  for (const file of files) {
+    const fileName = path.basename(file.name);
+    if (!repoFiles.includes(fileName)) {
+      await file.delete();
+      console.log(`File ${fileName} dihapus dari GCS.`);
+    }
+  }
+}
+
+// Menjalankan penghapusan file yang tidak ada di repo
+deleteObsoleteFiles();
