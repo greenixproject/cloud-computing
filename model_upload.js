@@ -3,7 +3,9 @@ const { Storage } = require('@google-cloud/storage');
 const path = require('path');
 
 // Inisialisasi klien Google Cloud Storage
-const storage = new Storage();
+const storage = new Storage({
+  credentials: JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS),
+});
 
 // Nama bucket dan folder tujuan di GCS
 const bucketName = 'model_ready';
@@ -35,4 +37,5 @@ function searchFiles(dirPath) {
   });
 }
 
+// Menjalankan pencarian file dan mengunggahnya ke GCS
 searchFiles(path.join(__dirname, '..'));
