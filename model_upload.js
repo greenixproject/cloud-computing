@@ -4,7 +4,7 @@ const path = require('path');
 
 // Inisialisasi klien Google Cloud Storage
 const storage = new Storage({
-  credentials: JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS),
+  keyFilename: './service-account-key.json',
 });
 
 // Nama bucket dan folder tujuan di GCS
