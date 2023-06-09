@@ -1,6 +1,8 @@
 const fs = require('fs');
 const { Storage } = require('@google-cloud/storage');
 const path = require('path');
+const tf = require('@tensorflow/tfjs-node'); // Anda perlu menginstal ini
+const tfc = require('@tensorflow/tfjs-converter'); // Anda perlu menginstal ini
 
 // Inisialisasi klien Google Cloud Storage
 const storage = new Storage({
@@ -24,13 +26,22 @@ async function uploadToGCS(filePath) {
   console.log(`File ${fileName} berhasil diunggah ke GCS.`);
 }
 
+// Fungsi untuk mengkonversi model .h5 ke format SavedModel
+async function convertModel(filePath) {
+  const model = await tf.loadLayersModel(`file://${filePath}`);
+  const savedModelPath = filePath.replace('.h5', '');
+  await tfc.save(model, `file://${savedModelPath}`);
+  return savedModelPath;
+}
+
 // Fungsi rekursif untuk mencari file dengan ekstensi .h5
-function searchFiles(dirPath) {
-  fs.readdirSync(dirPath).forEach((file) => {
+async function searchFiles(dirPath) {
+  fs.readdirSync(dirPath).forEach(async (file) => {
     const filePath = path.join(dirPath, file);
     const stat = fs.statSync(filePath);
     if (stat.isFile() && path.extname(file) === '.h5') {
-      uploadToGCS(filePath);
+      const savedModelPath = await convertModel(filePath);
+      uploadToGCS(savedModelPath);
     } else if (stat.isDirectory()) {
       searchFiles(filePath);
     }
