@@ -37,8 +37,8 @@ function searchFiles(dirPath, folderName) {
 }
 
 // Menjalankan pencarian file dan mengunggahnya ke GCS
-searchFiles(path.join(__dirname, '..', 'Food_Greenix', 'new_model'), 'model_activity/food_greenix');
-searchFiles(path.join(__dirname, '..', 'Vehicle_Greenix'), 'model_activity/transportation_greenix');
+searchFiles(path.join(__dirname, '..', 'ml-repo', 'Food_Greenix', 'new_model'), 'model_activity/food_greenix');
+searchFiles(path.join(__dirname, '..', 'ml-repo', 'Vehicle_Greenix'), 'model_activity/transportation_greenix');
 
 // Fungsi untuk menghapus file dari GCS berdasarkan file yang ada di repo
 async function deleteObsoleteFiles() {
