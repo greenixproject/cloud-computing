@@ -9,10 +9,9 @@ const storage = new Storage({
 
 // Nama bucket dan folder tujuan di GCS
 const bucketName = 'model_ready';
-const folderName = 'model_activity';
 
 // Fungsi untuk mengunggah file ke GCS
-async function uploadToGCS(filePath) {
+async function uploadToGCS(filePath, folderName) {
   // Mengambil nama file dari path
   const fileName = path.basename(filePath);
 
@@ -25,24 +24,25 @@ async function uploadToGCS(filePath) {
 }
 
 // Fungsi rekursif untuk mencari file dengan ekstensi .h5
-function searchFiles(dirPath) {
+function searchFiles(dirPath, folderName) {
   fs.readdirSync(dirPath).forEach((file) => {
     const filePath = path.join(dirPath, file);
     const stat = fs.statSync(filePath);
     if (stat.isFile() && path.extname(file) === '.h5') {
-      uploadToGCS(filePath);
+      uploadToGCS(filePath, folderName);
     } else if (stat.isDirectory()) {
-      searchFiles(filePath);
+      searchFiles(filePath, folderName);
     }
   });
 }
 
 // Menjalankan pencarian file dan mengunggahnya ke GCS
-searchFiles(path.join(__dirname, '..'));
+searchFiles(path.join(__dirname, '..', 'Food_Greenix', 'new_model'), 'model_activity/food_greenix');
+searchFiles(path.join(__dirname, '..', 'Vehicle_Greenix'), 'model_activity/transportation_greenix');
 
 // Fungsi untuk menghapus file dari GCS berdasarkan file yang ada di repo
 async function deleteObsoleteFiles() {
-  const [files] = await storage.bucket(bucketName).getFiles({ prefix: folderName });
+  const [files] = await storage.bucket(bucketName).getFiles({ prefix: 'model_activity' });
 
   const repoFiles = fs.readdirSync(path.join(__dirname, '..'));
 
