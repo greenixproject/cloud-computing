@@ -22,7 +22,6 @@
 - Cloud SQL : to host postgre sql
 - secret manager : save key or credential
 - Cloud Run : deploy api for ml
-- [Database ERD](https://lucid.app/lucidchart/270d9b81-a3d0-43f3-ac7b-0dd1)
 
 ## Repository API
 - [Repo API Backend](https://github.com/greenixproject/cloud-computing/tree/test-api)
