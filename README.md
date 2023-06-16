@@ -26,3 +26,50 @@
 ## Repository API
 - [Repo API Backend](https://github.com/greenixproject/cloud-computing/tree/test-api)
 - [Repo API ML](https://github.com/greenixproject/API-ML)
+
+## Local Installation Instructions
+
+Fork and clone the forked repository:
+
+```shell
+git clone git://github.com/<your_fork>/cloud-computing
+```
+
+Navigate into cloned repository:
+
+```shell
+cd cloud-computing
+```
+
+Install all required packages:
+
+```shell
+npm install
+```
+
+Run the NodeJS API:
+
+```shell
+npm run start
+```
+
+API will run on [http://localhost:8081(http://localhost:8081)
+
+## GCP Deployment Instructions
+
+Fork and clone the forked repository in cloud shell, enable API and right permission.
+
+```shell
+git clone git://github.com/<your_fork>/cloud-computing
+```
+
+Move to project directory:
+
+```shell
+cd cloud-computing
+```
+
+Deploy to appengine:
+
+```shell
+gcloud app deploy
